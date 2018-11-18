@@ -1,11 +1,16 @@
 import React from "react";
 import { mount } from "enzyme";
 import CommentBox from "components/CommentBox";
+import Root from "Root";
 
 let wrapped;
 
 beforeEach(() => {
-  wrapped = mount(<CommentBox />);
+  wrapped = mount(
+    <Root>
+      <CommentBox />
+    </Root>
+  );
 });
 
 afterEach(() => {
@@ -17,10 +22,10 @@ it("has a textarea and a button", () => {
   expect(wrapped.find("button").length).toEqual(1);
 });
 
-describe("the text area", () => {
+describe("the textarea", () => {
   beforeEach(() => {
     wrapped.find("textarea").simulate("change", {
-      value: "new comment"
+      target: { value: "new comment" }
     });
     wrapped.update();
   });
@@ -29,7 +34,7 @@ describe("the text area", () => {
     expect(wrapped.find("textarea").prop("value")).toEqual("new comment");
   });
 
-  it("empties textarea on lick", () => {
+  it("empties textarea on click", () => {
     wrapped.find("form").simulate("submit");
     wrapped.update();
 
