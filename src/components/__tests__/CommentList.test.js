@@ -18,7 +18,6 @@ beforeEach(() => {
 });
 
 it("creates one LI per comment", () => {
-  console.log(wrapped.find("li").length);
   expect(wrapped.find("li").length).toEqual(2);
 });
 
