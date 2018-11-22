@@ -7,6 +7,20 @@ class CommentBox extends Component {
     comment: ""
   };
 
+  componentDidMount() {
+    this.shouldLeave();
+  }
+
+  componentDidUpdate() {
+    this.shouldLeave();
+  }
+
+  shouldLeave() {
+    if (!this.props.auth) {
+      this.props.history.push("/");
+    }
+  }
+
   handleChange = event => {
     this.setState({ comment: event.target.value });
   };
@@ -36,7 +50,13 @@ class CommentBox extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(CommentBox);
