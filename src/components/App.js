@@ -2,9 +2,17 @@ import React, { Component } from "react";
 import CommentBox from "components/CommentBox";
 import CommentList from "components/CommentList";
 import { Route, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "actions";
 
-export default class App extends Component {
-  renderButton() {}
+class App extends Component {
+  renderButton() {
+    if (this.props.auth) {
+      return <button onClick={this.props.changeAuth(false)}>Sign Out</button>;
+    } else {
+      return <button onClick={this.props.changeAuth(true)}>Sign in</button>;
+    }
+  }
 
   renderHeader() {
     return (
@@ -13,9 +21,9 @@ export default class App extends Component {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/post">Post a omment</Link>
+          <Link to="/post">Post a comment</Link>
         </li>
-        <li>{this.render.button}</li>
+        <li>{this.renderButton()}</li>
       </ul>
     );
   }
@@ -23,9 +31,21 @@ export default class App extends Component {
   render() {
     return (
       <div>
+        {this.renderHeader()}
         <Route path="/post" component={CommentBox} />
         <Route path="/" exact component={CommentList} />
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    auth: state.auth
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  actions
+)(App);
